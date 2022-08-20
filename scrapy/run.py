@@ -15,3 +15,5 @@ if __name__ == "__main__":
         json.dump(list_obj, json_file, 
                             indent=4,  
                             separators=(',',': '))
+
+    print(f"Done ({data})")
