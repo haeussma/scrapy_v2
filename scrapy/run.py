@@ -8,6 +8,8 @@ if __name__ == "__main__":
 
     with open("output/out.json") as f:
         list_obj = json.load(f)
+        
+    print(list_obj)
 
     list_obj.append(data)
 
