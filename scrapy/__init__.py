@@ -1,0 +1,1 @@
+from scrapy.core.main import do_something
