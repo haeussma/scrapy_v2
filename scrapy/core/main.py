@@ -13,4 +13,4 @@ def do_something(now: str) -> str:
     time = now
     text = f"Doing something with #{utility}# at {now}"
 
-    return [time, text]
+    return {time: text}
