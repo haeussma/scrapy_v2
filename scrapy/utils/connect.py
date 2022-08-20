@@ -58,7 +58,7 @@ if __name__ == "__main__":
     driver = Scraper()
     driver
 
-    url = "https://soundcloud.com/akronymcollective/tracks" 
+    url = "https://soundcloud.com/hoerberlin/tracks" 
     driver.driver.get(url)
     time.sleep(2)
 
