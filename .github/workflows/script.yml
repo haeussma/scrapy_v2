@@ -28,7 +28,7 @@ jobs:
           python-version: 3.9
           
       - name: Install scrapy
-        run: python3 -m pip install git+https://github.com/haeussma/scrapy_v2.git
+        run: python3 -m pip install git+https://github.com/FAIRChemistry/pyAnIML_spreadsheet_parser.git
 
       # Runs a single command using the runners shell
       - name: Run a Python script
