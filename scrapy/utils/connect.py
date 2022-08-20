@@ -34,7 +34,7 @@ class Scraper:
 
     def scroll(self):
 
-        scroll_pause_time = 1.5
+        scroll_pause_time = 1.1
 
         # Get scroll height
         last_height = self.driver.execute_script("return document.body.scrollHeight")
