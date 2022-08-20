@@ -1,13 +1,16 @@
 from time import time
-from scrapy.utils.util import utility_function
+from scrapy.utils.util import random_word
 import logging
 
 
 def do_something(now: str) -> str:
-    utility = utility_function()
-    if len(utility) > 0:
+    utility = random_word()
+    if len(utility) < 3:
         logging.info("utility succesfully imported")
-    else:
-        logging.critical("utility not imported!")
+    #else:
+        logging.critical(f"Short word: {utility}!")
 
-    return f"Doing something with {utility} at {now}"
+    time = now
+    text = f"Doing something with #{utility}# at {now}"
+
+    return [time, text]
