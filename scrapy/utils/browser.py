@@ -1,5 +1,4 @@
 from abc import ABC, abstractmethod
-from dataclasses import dataclass
 import psutil, signal, time, platform
 from contextlib import suppress
 
@@ -33,6 +32,7 @@ class Browser(ABC):
     @abstractmethod
     def closeBrowser(self):
         """Closes Browser and quits all connections."""
+
 
 class StandardBrowser(Browser):
     def __init__(self, url: str) -> None:
@@ -144,25 +144,6 @@ class ProxyBrowser(Browser):
     def openURL(self) -> None:
         super().openURL()
         time.sleep(7)
-
-    def scroll(self) -> None:
-        scroll_pause_time = 1
-
-        # Get scroll height
-        last_height = self.driver.execute_script("return document.body.scrollHeight")
-
-        while True:
-            # Scroll down to bottom
-            self.driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
-
-            # Wait to load page
-            time.sleep(scroll_pause_time)
-
-            # Calculate new scroll height and compare with last scroll height
-            new_height = self.driver.execute_script("return document.body.scrollHeight")
-            if new_height == last_height:
-                break
-            last_height = new_height
 
 
     def getData(self) -> dict:
