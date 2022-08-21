@@ -54,28 +54,34 @@ class Scraper:
 
 
 if __name__ == "__main__":
+    import platform
+    import time
+    from scrapy.utils.browser import Browser
 
-    driver = Scraper()
-    driver
+    print(platform.system())
+
+    browser = Browser(use_proxy=True)
+    
 
     url = "https://soundcloud.com/akronymcollective/tracks" 
-    driver.driver.get(url)
-    time.sleep(2)
+    browser.driver.get(url)
+    time.sleep(1)
+    browser.scroll()
+    
 
-    driver.scroll()
 
-    soundlist = driver.driver.find_elements(By.CLASS_NAME, "soundList__item")
+    soundlist = browser.driver.find_elements(By.CLASS_NAME, "soundList__item")
     print(len(soundlist))
 
-    total_plays = 0
-    for element in soundlist:
+    #total_plays = 0
+    #for element in soundlist:
 
-        title = element.find_element(By.CLASS_NAME, "soundTitle__title")
-        print(f"Title: {title.text}")
+    #    title = element.find_element(By.CLASS_NAME, "soundTitle__title")
+     #   print(f"Title: {title.text}")
 
-        plays = element.find_element(By.CLASS_NAME, "sc-ministats-plays")
-        plays = int(plays.text.split("\n")[0].split(" ")[0].replace(",", ""))
-        print(f"Plays: {plays}")
-        total_plays += plays
+    #    plays = element.find_element(By.CLASS_NAME, "sc-ministats-plays")
+     #   plays = int(plays.text.split("\n")[0].split(" ")[0].replace(",", ""))
+      #  print(f"Plays: {plays}")
+       # total_plays += plays
 
-    print(f"total play: {total_plays}")
+    #print(f"total play: {total_plays}")
