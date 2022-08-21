@@ -64,11 +64,12 @@ if __name__ == "__main__":
     browser.proxy.new_har('req', options={'captureHeaders': False, 'captureContent': True})
     
 
-    url = "https://open.spotify.com/album/6Vi07YHPostxvPacTCESEW" 
+    url = "https://open.spotify.com/playlist/4PodhgcAA4scAytMsfZvge" 
     browser.driver.get(url)
     time.sleep(5)
 
     result = browser.proxy.har
+    print(result)
 
     for i in range(len(result["log"]["entries"])):
         if "text" in result["log"]["entries"][i]["response"]["content"].keys():
@@ -76,6 +77,7 @@ if __name__ == "__main__":
 
             if "{\"data\":{\"album\":{\"playability\":{\"playable\":true}" in subdata:
                 subdata_dict = json.loads(subdata)
+                print(subdata)
 
                 for track_item in subdata_dict['data']['album']['tracks']['items']:
                         print(f"name: {track_item['track']['name']}")
