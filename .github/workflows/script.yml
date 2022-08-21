@@ -3,7 +3,7 @@ name: Python Script
 on:
   workflow_dispatch:
   schedule:
-    - cron: "*/5 * * * *"
+    - cron: "0 */1 * * *"
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -18,18 +18,31 @@ jobs:
 
       - name: Checkout
         uses: actions/checkout@v2
+        
+      - name: Download browsermob-proxy
+        run: wget -q -O tmp.zip https://github.com/lightbody/browsermob-proxy/releases/download/browsermob-proxy-2.1.4/browsermob-proxy-2.1.4-bin.zip && unzip tmp.zip -d ~ && rm tmp.zip
+        
+      - name: Check path
+        run: cd /home/runner/browsermob-proxy-2.1.4/bin/ && ls -lh
+        
+      - name: Get uname
+        run: uname
 
       - name: Setup Python
         uses: actions/setup-python@v2
         with:
           python-version: 3.9
+          
+      - name: Install requirements.txt
+        run: python -m pip install -r requirements.txt
 
       - name: Install scrapy
         run: python3 -m pip install git+https://github.com/haeussma/scrapy_v2.git
+        
 
       # Runs a single command using the runners shell
       - name: Run Script
-        run: python scrapy/run.py
+        run: python scrapy/utils/connect.py
 
       - name: Git Auto Commit
         uses: stefanzweifel/git-auto-commit-action@v4.14.1
