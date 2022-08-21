@@ -20,7 +20,7 @@ jobs:
         uses: actions/checkout@v2
         
       - name: Download browsermob-proxy
-        run: curl "https://github.com/lightbody/browsermob-proxy/releases/download/browsermob-proxy-2.1.4/browsermob-proxy-2.1.4-bin.zip" -0 temp.zip | unzip temp.zip
+        run: wget "https://github.com/lightbody/browsermob-proxy/releases/download/browsermob-proxy-2.1.4/browsermob-proxy-2.1.4-bin.zip" | unzip -
 
       - name: Setup Python
         uses: actions/setup-python@v2
