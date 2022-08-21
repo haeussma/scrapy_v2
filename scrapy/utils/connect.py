@@ -56,22 +56,33 @@ class Scraper:
 if __name__ == "__main__":
     import platform
     import time
+    import json
     from scrapy.utils.browser import Browser
 
-    print(platform.system())
-
     browser = Browser(use_proxy=True)
+
+    browser.proxy.new_har('req', options={'captureHeaders': False, 'captureContent': True})
     
 
-    url = "https://soundcloud.com/akronymcollective/tracks" 
+    url = "https://open.spotify.com/album/6Vi07YHPostxvPacTCESEW" 
     browser.driver.get(url)
-    time.sleep(1)
-    browser.scroll()
-    
+    time.sleep(5)
+
+    result = browser.proxy.har
+
+    for i in range(len(result["log"]["entries"])):
+        if "text" in result["log"]["entries"][i]["response"]["content"].keys():
+            subdata = result["log"]["entries"][i]["response"]["content"]["text"]
+
+            if "{\"data\":{\"album\":{\"playability\":{\"playable\":true}" in subdata:
+                subdata_dict = json.loads(subdata)
+
+                for track_item in subdata_dict['data']['album']['tracks']['items']:
+                        print(f"name: {track_item['track']['name']}")
+                        print(f"plays: {track_item['track']['playcount']}")
+                        #artist = track_item['track']['artists']['artists']['items'][0]["profile"]["name"]
 
 
-    soundlist = browser.driver.find_elements(By.CLASS_NAME, "soundList__item")
-    print(len(soundlist))
 
     #total_plays = 0
     #for element in soundlist:
