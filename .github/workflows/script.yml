@@ -25,8 +25,8 @@ jobs:
       - name: Check path
         run: cd /home/runner/browsermob-proxy-2.1.4/bin/ && ls -lh
         
-      - name: print path
-        run: cd && ls && pwd
+      - name: Get uname
+        run: uname
 
       - name: Setup Python
         uses: actions/setup-python@v2
