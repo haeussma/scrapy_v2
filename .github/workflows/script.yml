@@ -21,12 +21,6 @@ jobs:
         
       - name: Download browsermob-proxy
         run: wget -q -O tmp.zip https://github.com/lightbody/browsermob-proxy/releases/download/browsermob-proxy-2.1.4/browsermob-proxy-2.1.4-bin.zip && unzip tmp.zip -d ~ && rm tmp.zip
-        
-      - name: Check path
-        run: cd /home/runner/browsermob-proxy-2.1.4/bin/ && ls -lh
-        
-      - name: Get uname
-        run: uname
 
       - name: Setup Python
         uses: actions/setup-python@v2
