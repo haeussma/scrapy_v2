@@ -99,7 +99,6 @@ class ProxyBrowser(Browser):
         self.startProxy()
         self.driver: webdriver.Chrome = self.startBrowser()
         self.openURL()
-        self.scroll()
 
     def startProxy(self):
 
