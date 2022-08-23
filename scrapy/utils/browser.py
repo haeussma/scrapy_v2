@@ -11,7 +11,7 @@ from selenium.webdriver.chrome.service import Service
 from browsermobproxy import Server
 
 
-
+# TODO browser
 class Browser(ABC):
     url: str
     driver: webdriver.Chrome
@@ -43,6 +43,7 @@ class StandardBrowser(Browser):
 
     def startBrowser(self) -> webdriver.Chrome:
 
+            # TODO browser needs to be installed only once
             chrome_service = Service(ChromeDriverManager(chrome_type=ChromeType.CHROMIUM).install())
 
             chrome_options = Options()
