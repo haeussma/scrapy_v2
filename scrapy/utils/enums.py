@@ -8,3 +8,13 @@ class Attribute(Enum):
     LIKES = "likes"
     SHARES = "shares"
     COMMENTS = "comments"
+
+class Type(Enum):
+    TRACK = 'track'
+    PODCAST = 'podcast'
+    CLIP = 'clip'
+
+class Platform(Enum):
+    SPOTIFY = 'spotify'
+    SOUNDCLOUD = 'soundcloud'
+    YOUTUBE = 'youtube'
