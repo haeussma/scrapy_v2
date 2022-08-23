@@ -30,8 +30,9 @@ class Browser(ABC):
         """Export loaded Webpage with loaded page"""
 
     @abstractmethod
-    def closeBrowser(self):
+    def close(self):
         """Closes Browser and quits all connections."""
+
 
 
 class StandardBrowser(Browser):
@@ -90,7 +91,10 @@ class StandardBrowser(Browser):
     def getData(self) -> webdriver.Chrome:
             return self.driver
 
-    def closeBrowser(self) -> None:
+    def findElement(self, css_selector: str) -> str:
+        super().findElement(css_selector)
+
+    def close(self) -> None:
         self.driver.close()
 
 
@@ -143,15 +147,20 @@ class ProxyBrowser(Browser):
 
     def openURL(self) -> None:
         super().openURL()
-        time.sleep(7)
+        time.sleep(4)
 
-
-    def getData(self) -> dict:
+    def getHar(self) -> dict:
         har = self.proxy.har
         return har
 
+    def getData(self) -> webdriver.Chrome:
+        return self.driver
 
-    def closeBrowser(self) -> None:
+    def findElement(self, css_selector: str) -> str:
+        return self.driver.find_element(By.CSS_SELECTOR, css_selector).text
+
+
+    def close(self) -> None:
         self.driver.close()
         self.proxy.close()
         bmp_daemon = self.server
@@ -173,29 +182,25 @@ class ProxyBrowser(Browser):
                     with suppress(psutil.NoSuchProcess):
                         try:
                             child.send_signal(signal.SIGTERM)
-                        except Exception as e:
-                            e("error")
+                        except:
+                            pass
         
 
 if __name__ == "__main__":
     import time
     import json
 
-    browser = StandardBrowser("https://soundcloud.com/akronymcollective/tracks")
+    #browser = StandardBrowser("https://soundcloud.com/akronymcollective/tracks")
     
-    soundlist = browser.getData().find_elements(By.CLASS_NAME, "soundList__item")
-    print(len(soundlist))
+    #soundlist = browser.getData().find_elements(By.CLASS_NAME, "soundList__item")
+    #print(len(soundlist))
 
     proxybrowser = ProxyBrowser("https://open.spotify.com/album/3uPnO1aZBwMgWK1DI5zve9")
+    #proxybrowser.closeBrowser()
     result = proxybrowser.getData()
+    har = proxybrowser.getHar()
+    result = result.find_element(By.CSS_SELECTOR, "h1.Type__TypeElement-goli3j-0")
 
-    for i in range(len(result["log"]["entries"])):
-        if "text" in result["log"]["entries"][i]["response"]["content"].keys():
-            subdata = result["log"]["entries"][i]["response"]["content"]["text"]
+    print(result.text)
 
-            if "{\"data\":{\"album\":{\"playability\":{\"playable\":true}" in subdata:
-                subdata_dict = json.loads(subdata)
-
-                for track_item in subdata_dict['data']['album']['tracks']['items']:
-                        print(f"name: {track_item['track']['name']}")
-                        print(f"plays: {track_item['track']['playcount']}")
+    proxybrowser.close()
