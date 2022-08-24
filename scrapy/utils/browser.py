@@ -102,7 +102,7 @@ class ProxyBrowser(Browser):
         if system_node  == "Nokia1110":
             browsermob_path = "/Users/maxhaussler/browsermob-proxy-2.1.4/bin/browsermob-proxy"
         else:
-            browsermob_path = "/home/runner/browsermob-proxy-2.1.4/bin/browsermob-proxy"
+            browsermob_path = "/Users/runner/browsermob-proxy-2.1.4/bin//browsermob-proxy"
 
         self.server = Server(path=browsermob_path)
         self.server.start()
@@ -168,8 +168,6 @@ class ProxyBrowser(Browser):
 if __name__ == "__main__":
     import time
     import json
-
-    print(os.getcwd())
 
     #browser = StandardBrowser("https://soundcloud.com/akronymcollective/tracks")
     
