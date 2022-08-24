@@ -73,7 +73,8 @@ class SpotifyScraper(Scraper):
         list_of_scrapes = []
 
         for num, url in enumerate(urls):
-            browser = ProxyBrowser(url)
+            browser = ProxyBrowser()
+            browser.openURL(url)
             har_response = browser.getHar()
             album_name = browser.findElement("h1.Type__TypeElement-goli3j-0")
 
@@ -105,8 +106,9 @@ class SpotifyScraper(Scraper):
                             ))
                             print(list_of_scrapes[-1])
 
-            browser.close()
             print(f"Scraping album {num+1} finnished.")
+        browser.close()
+
 
 
         return list_of_scrapes
@@ -139,7 +141,6 @@ if __name__ == "__main__":
         #"https://open.spotify.com/album/56wfN8bWMePGYI5ohYW85i",
     ]
     scrape = SpotifyScraper.from_URL(urls)
-    print(scrape)
 
 
 

@@ -13,21 +13,11 @@ from browsermobproxy import Server
 
 # TODO browser
 class Browser(ABC):
-    url: str
     driver: webdriver.Chrome
 
     @abstractmethod
     def startBrowser(self) -> webdriver.Chrome:
         """Downloads and setups Chrome webdriver."""
-
-    @abstractmethod
-    def openURL(self) -> None:
-        """Navigates to URL."""
-        self.driver.get(self.url)
-
-    @abstractmethod
-    def getData(self) -> webdriver.Chrome:
-        """Export loaded Webpage with loaded page"""
 
     @abstractmethod
     def close(self):
@@ -36,11 +26,8 @@ class Browser(ABC):
 
 
 class StandardBrowser(Browser):
-    def __init__(self, url: str) -> None:
-        self.url = url
-        self.driver: webdriver.Chrome = self.startBrowser()
-        self.openURL()
-        self.scroll()
+    def __init__(self) -> None:
+        self.driver = self.startBrowser()
 
     def startBrowser(self) -> webdriver.Chrome:
 
@@ -62,11 +49,13 @@ class StandardBrowser(Browser):
                 chrome_options.add_argument(option)
 
             driver = webdriver.Chrome(service=chrome_service, options=chrome_options)
+
             return driver
 
 
-    def openURL(self) -> None:
-        super().openURL()
+    def openURL(self, url:str) -> None:
+        self.driver.get(url)
+        self.scroll()
 
     def scroll(self):
 
@@ -88,22 +77,21 @@ class StandardBrowser(Browser):
                 break
             last_height = new_height
 
-    def getData(self) -> webdriver.Chrome:
-            return self.driver
-
-    def findElement(self, css_selector: str) -> str:
-        super().findElement(css_selector)
+    def getElement(self, css_selector: str) -> str:
+        return self.driver.find_element(By.CSS_SELECTOR, css_selector).text
 
     def close(self) -> None:
         self.driver.close()
 
 
 class ProxyBrowser(Browser):
-    def __init__(self, url: str) -> None:
-        self.url = url
-        self.startProxy()
+    def __init__(self) -> None:
+        self.proxy_running = False
+
+        if self.proxy_running is False:
+            self.startProxy()
+            self.proxy_running = True
         self.driver: webdriver.Chrome = self.startBrowser()
-        self.openURL()
 
     def startProxy(self):
 
@@ -116,18 +104,16 @@ class ProxyBrowser(Browser):
         else:
             raise SystemError("System not found: browsermob-proxy path could not be provided.")
 
-        self.server = Server(path=browsermob_path, options={'existing_proxy_port_to_use': 8090})
+        self.server = Server(path=browsermob_path)
         self.server.start()
         self.proxy = self.server.create_proxy()
 
     def startBrowser(self) -> webdriver.Chrome:
         chrome_service = Service(ChromeDriverManager(chrome_type=ChromeType.CHROMIUM).install())
 
-        self.proxy.new_har('req', options={'captureHeaders': False, 'captureContent': True})
-
         chrome_options = Options()
         options = [
-            "--headless",
+            #"--headless",
             "--disable-gpu",
             "--window-size=1200,1920",
             "--ignore-certificate-errors",
@@ -145,16 +131,14 @@ class ProxyBrowser(Browser):
 
         return driver
 
-    def openURL(self) -> None:
-        super().openURL()
-        time.sleep(4)
+    def openURL(self, url:str) -> None:
+        self.proxy.new_har('req', options={'captureHeaders': False, 'captureContent': True})
+        self.driver.get(url)
+        time.sleep(5)
 
     def getHar(self) -> dict:
         har = self.proxy.har
         return har
-
-    def getData(self) -> webdriver.Chrome:
-        return self.driver
 
     def findElement(self, css_selector: str) -> str:
         return self.driver.find_element(By.CSS_SELECTOR, css_selector).text
@@ -195,12 +179,11 @@ if __name__ == "__main__":
     #soundlist = browser.getData().find_elements(By.CLASS_NAME, "soundList__item")
     #print(len(soundlist))
 
-    proxybrowser = ProxyBrowser("https://open.spotify.com/album/3uPnO1aZBwMgWK1DI5zve9")
-    #proxybrowser.closeBrowser()
-    result = proxybrowser.getData()
+    proxybrowser = ProxyBrowser()
+    proxybrowser.openURL("https://open.spotify.com/album/3uPnO1aZBwMgWK1DI5zve9")
     har = proxybrowser.getHar()
-    result = result.find_element(By.CSS_SELECTOR, "h1.Type__TypeElement-goli3j-0")
+    result = proxybrowser.findElement("h1.Type__TypeElement-goli3j-0")
 
-    print(result.text)
+    print(result)
 
     proxybrowser.close()
