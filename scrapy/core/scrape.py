@@ -122,7 +122,7 @@ class YoutubeScraper(Scraper):
 if __name__ == "__main__":
     urls = [
         "https://open.spotify.com/album/08zsw1AY0mZdfJQMGxb0nZ",
-        "https://open.spotify.com/album/3uPnO1aZBwMgWK1DI5zve9",
+        #"https://open.spotify.com/album/3uPnO1aZBwMgWK1DI5zve9",
         "https://open.spotify.com/album/1dvekhJPaROZQ5j6MRP0TH",
         "https://open.spotify.com/album/1Aa7MMQ3VXZH28wURtApo0",
         "https://open.spotify.com/album/3bBLnNMW2k5XbZyzsyIQUk",
