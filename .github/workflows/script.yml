@@ -23,7 +23,7 @@ jobs:
         run: pwd && curl -L -O https://github.com/lightbody/browsermob-proxy/releases/download/browsermob-proxy-2.1.4/browsermob-proxy-2.1.4-bin.zip && unzip browsermob-proxy-2.1.4-bin.zip -d ~ && rm browsermob-proxy-2.1.4-bin.zip
 
       - name: Download browsermob-proxy
-        run: pwd && cd /Users/runner/browsermob-proxy-2.1.4/bin/ && ls &&
+        run: pwd && cd /Users/runner/browsermob-proxy-2.1.4/bin/ && ls
 
       - name: Setup Python
         uses: actions/setup-python@v2
