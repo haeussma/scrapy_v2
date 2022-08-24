@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-import psutil, signal, time, platform, json
+import psutil, signal, time, platform, json, os
 from contextlib import suppress
 
 from selenium import webdriver
@@ -28,6 +28,7 @@ class Browser(ABC):
 class StandardBrowser(Browser):
     def __init__(self) -> None:
         self.driver = self.startBrowser()
+        
 
     def startBrowser(self) -> webdriver.Chrome:
 
@@ -95,14 +96,13 @@ class ProxyBrowser(Browser):
 
     def startProxy(self):
 
-        system_platform = platform.system()
+        system_node = platform.node()
+        print(system_node)
 
-        if system_platform  == "Darwin":
-            browsermob_path = "/Users/maxhaussler/Downloads/browsermob-proxy-2.1.42/bin/browsermob-proxy"
-        elif system_platform == "Linux":
-            browsermob_path = "/home/runner/browsermob-proxy-2.1.4/bin/browsermob-proxy"
+        if system_node  == "Nokia1110":
+            browsermob_path = "/Users/maxhaussler/browsermob-proxy-2.1.4/bin/browsermob-proxy"
         else:
-            raise SystemError("System not found: browsermob-proxy path could not be provided.")
+            browsermob_path = "/home/runner/browsermob-proxy-2.1.4/bin/browsermob-proxy"
 
         self.server = Server(path=browsermob_path)
         self.server.start()
@@ -168,6 +168,8 @@ class ProxyBrowser(Browser):
 if __name__ == "__main__":
     import time
     import json
+
+    print(os.getcwd())
 
     #browser = StandardBrowser("https://soundcloud.com/akronymcollective/tracks")
     
