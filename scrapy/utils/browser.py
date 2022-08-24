@@ -104,7 +104,7 @@ class ProxyBrowser(Browser):
         else:
             raise SystemError("System not found: browsermob-proxy path could not be provided.")
 
-        self.server = Server(path=browsermob_path, options={'existing_proxy_port_to_use': 8090})
+        self.server = Server(path=browsermob_path)
         self.server.start()
         self.proxy = self.server.create_proxy()
 
@@ -135,7 +135,7 @@ class ProxyBrowser(Browser):
         return driver
 
     def openURL(self, url:str) -> None:
-        self.proxy.new_har('req', options={'captureHeaders': False, 'captureContent': True, 'existing_proxy_port_to_use': 8090})
+        self.proxy.new_har('req', options={'captureHeaders': False, 'captureContent': True})
         print("new har!")
         time.sleep(2)
         self.driver.get(url)
@@ -151,30 +151,18 @@ class ProxyBrowser(Browser):
 
 
     def close(self) -> None:
-        self.driver.close()
         self.proxy.close()
+        self.driver.close()
 
-        bmp_daemon = self.server
-        if bmp_daemon is not None and bmp_daemon.process is not None:
-            childs_process = None
+        for process in psutil.process_iter():
             try:
-                cmd_process = psutil.Process(bmp_daemon.process.pid)
-                childs_process = cmd_process.children(recursive=True)
-                childs_process = [*childs_process, cmd_process]
-
-                bmp_daemon.stop()
-
-            finally:
-                for child in childs_process:
-                    # we can't accidentally kill newly created process
-                    # we can kill only the process we have cached earlier
-                    # if process was already finished we will get NoSuchProcess
-                    # that we're just suppressing
-                    with suppress(psutil.NoSuchProcess):
-                        try:
-                            child.send_signal(signal.SIGTERM)
-                        except:
-                            pass
+                process_info = process.as_dict(attrs=['name', 'cmdline'])
+                if process_info.get('name') in ('java', 'java.exe'):
+                    for cmd_info in process_info.get('cmdline'):
+                        if cmd_info == '-Dapp.name=browsermob-proxy':
+                            process.kill()
+            except psutil.NoSuchProcess:
+                pass
         
 
 if __name__ == "__main__":

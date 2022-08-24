@@ -106,6 +106,8 @@ class SpotifyScraper(Scraper):
                             ))
                             print(list_of_scrapes[-1])
 
+                            browser.proxy.close()
+
             print(f"Scraping album {num+1} finnished.")
         browser.close()
 
