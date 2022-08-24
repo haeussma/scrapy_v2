@@ -116,7 +116,7 @@ class ProxyBrowser(Browser):
         else:
             raise SystemError("System not found: browsermob-proxy path could not be provided.")
 
-        self.server = Server(path=browsermob_path, options={'port':8090})
+        self.server = Server(path=browsermob_path)
         self.server.start()
         self.proxy = self.server.create_proxy()
 
