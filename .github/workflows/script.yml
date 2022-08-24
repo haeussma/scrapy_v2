@@ -36,7 +36,7 @@ jobs:
 
       # Runs a single command using the runners shell
       - name: Run Script
-        run: python scrapy/utils/browser.py
+        run: python scrapy/core/scraper.py
 
       - name: Git Auto Commit
         uses: stefanzweifel/git-auto-commit-action@v4.14.1
