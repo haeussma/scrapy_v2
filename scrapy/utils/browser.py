@@ -137,7 +137,7 @@ class ProxyBrowser(Browser):
     def openURL(self, url:str) -> None:
         self.proxy.new_har('req', options={'captureHeaders': False, 'captureContent': True, 'existing_proxy_port_to_use': 8090})
         self.driver.get(url)
-        time.sleep(5)
+        time.sleep(10)
 
     def getHar(self) -> json:
         har = self.proxy.har

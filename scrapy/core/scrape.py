@@ -125,7 +125,7 @@ if __name__ == "__main__":
         "https://open.spotify.com/album/3uPnO1aZBwMgWK1DI5zve9",
         "https://open.spotify.com/album/1dvekhJPaROZQ5j6MRP0TH",
         "https://open.spotify.com/album/1Aa7MMQ3VXZH28wURtApo0",
-        #"https://open.spotify.com/album/3bBLnNMW2k5XbZyzsyIQUk",
+        "https://open.spotify.com/album/3bBLnNMW2k5XbZyzsyIQUk",
         #"https://open.spotify.com/album/7ebrRMbLDEU5kBycQUNjCM",
         #"https://open.spotify.com/album/12opSVMxNXryWQVzdmu9mm",
         #"https://open.spotify.com/album/5jC7MjpviHV3IkEjtS9iV3",
