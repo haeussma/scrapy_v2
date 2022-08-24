@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-import psutil, signal, time, platform
+import psutil, signal, time, platform, json
 from contextlib import suppress
 
 from selenium import webdriver
@@ -104,16 +104,18 @@ class ProxyBrowser(Browser):
         else:
             raise SystemError("System not found: browsermob-proxy path could not be provided.")
 
-        self.server = Server(path=browsermob_path)
+        self.server = Server(path=browsermob_path, options={'existing_proxy_port_to_use': 8090})
         self.server.start()
         self.proxy = self.server.create_proxy()
 
     def startBrowser(self) -> webdriver.Chrome:
         chrome_service = Service(ChromeDriverManager(chrome_type=ChromeType.CHROMIUM).install())
 
+        self.proxy.new_har('req', options={'captureHeaders': False, 'captureContent': True})
+
         chrome_options = Options()
         options = [
-            #"--headless",
+            "--headless",
             "--disable-gpu",
             "--window-size=1200,1920",
             "--ignore-certificate-errors",
@@ -122,6 +124,7 @@ class ProxyBrowser(Browser):
             "--disable-dev-shm-usage",
             "disable-extensions",
             '--proxy-server={host}:{port}'.format(host='localhost', port=self.proxy.port)
+            
         ]
 
         for option in options:
@@ -132,11 +135,11 @@ class ProxyBrowser(Browser):
         return driver
 
     def openURL(self, url:str) -> None:
-        self.proxy.new_har('req', options={'captureHeaders': False, 'captureContent': True})
+        self.proxy.new_har('req', options={'captureHeaders': False, 'captureContent': True, 'existing_proxy_port_to_use': 8090})
         self.driver.get(url)
         time.sleep(5)
 
-    def getHar(self) -> dict:
+    def getHar(self) -> json:
         har = self.proxy.har
         return har
 
@@ -147,6 +150,7 @@ class ProxyBrowser(Browser):
     def close(self) -> None:
         self.driver.close()
         self.proxy.close()
+
         bmp_daemon = self.server
         if bmp_daemon is not None and bmp_daemon.process is not None:
             childs_process = None
