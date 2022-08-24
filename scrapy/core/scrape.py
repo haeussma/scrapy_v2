@@ -105,7 +105,7 @@ class SpotifyScraper(Scraper):
                             ))
                             print(list_of_scrapes[-1])
 
-            #browser.close()
+            browser.close()
             print(f"Scraping album {num+1} finnished.")
 
 
@@ -123,20 +123,20 @@ if __name__ == "__main__":
         "https://open.spotify.com/album/3uPnO1aZBwMgWK1DI5zve9",
         "https://open.spotify.com/album/1dvekhJPaROZQ5j6MRP0TH",
         "https://open.spotify.com/album/1Aa7MMQ3VXZH28wURtApo0",
-        "https://open.spotify.com/album/3bBLnNMW2k5XbZyzsyIQUk",
-        "https://open.spotify.com/album/7ebrRMbLDEU5kBycQUNjCM",
-        "https://open.spotify.com/album/12opSVMxNXryWQVzdmu9mm",
-        "https://open.spotify.com/album/5jC7MjpviHV3IkEjtS9iV3",
-        "https://open.spotify.com/album/314tOEIdTMCWt0HjGOagt7",
-        "https://open.spotify.com/album/3ihkDxBRnocXB9VsTzuyf6",
-        "https://open.spotify.com/album/38gm6VGs4uuEbWO6Bj5elO",
-        "https://open.spotify.com/album/6PHtfmP1NJk0Wx3efAGuYA",
-        "https://open.spotify.com/album/7LrJEtnQzA1sAeMxRMGDqj",
-        "https://open.spotify.com/album/1z5xJdmnKmnidKfT6x1IUG",
-        "https://open.spotify.com/album/05KJcT7QPUcXp20teI61PW",
-        "https://open.spotify.com/album/6dQXvUxuZWWYGYnY6hasNo",
-        "https://open.spotify.com/album/3aw2QCVglkQ3dUBPZKkDRA",
-        "https://open.spotify.com/album/56wfN8bWMePGYI5ohYW85i",
+        #"https://open.spotify.com/album/3bBLnNMW2k5XbZyzsyIQUk",
+        #"https://open.spotify.com/album/7ebrRMbLDEU5kBycQUNjCM",
+        #"https://open.spotify.com/album/12opSVMxNXryWQVzdmu9mm",
+        #"https://open.spotify.com/album/5jC7MjpviHV3IkEjtS9iV3",
+        #"https://open.spotify.com/album/314tOEIdTMCWt0HjGOagt7",
+        #"https://open.spotify.com/album/3ihkDxBRnocXB9VsTzuyf6",
+        #"https://open.spotify.com/album/38gm6VGs4uuEbWO6Bj5elO",
+        #"https://open.spotify.com/album/6PHtfmP1NJk0Wx3efAGuYA",
+        #"https://open.spotify.com/album/7LrJEtnQzA1sAeMxRMGDqj",
+        #"https://open.spotify.com/album/1z5xJdmnKmnidKfT6x1IUG",
+        #"https://open.spotify.com/album/05KJcT7QPUcXp20teI61PW",
+        #"https://open.spotify.com/album/6dQXvUxuZWWYGYnY6hasNo",
+        #"https://open.spotify.com/album/3aw2QCVglkQ3dUBPZKkDRA",
+        #"https://open.spotify.com/album/56wfN8bWMePGYI5ohYW85i",
     ]
     scrape = SpotifyScraper.from_URL(urls)
     print(scrape)
