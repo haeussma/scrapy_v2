@@ -113,7 +113,7 @@ class ProxyBrowser(Browser):
 
         chrome_options = Options()
         options = [
-            #"--headless",
+            "--headless",
             "--disable-gpu",
             "--window-size=1200,1920",
             "--ignore-certificate-errors",
