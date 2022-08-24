@@ -10,7 +10,7 @@ jobs:
   # This workflow contains a single job called "build"
   build:
     # The type of runner that the job will run on
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
@@ -20,7 +20,10 @@ jobs:
         uses: actions/checkout@v2
         
       - name: Download browsermob-proxy
-        run: wget -q -O tmp.zip https://github.com/lightbody/browsermob-proxy/releases/download/browsermob-proxy-2.1.4/browsermob-proxy-2.1.4-bin.zip && unzip tmp.zip -d ~ && rm tmp.zip
+        run: curl -L -O https://github.com/lightbody/browsermob-proxy/releases/download/browsermob-proxy-2.1.4/browsermob-proxy-2.1.4-bin.zip && unzip browsermob-proxy-2.1.4-bin.zip -d ~ && rm browsermob-proxy-2.1.4-bin.zip
+
+      - name: Download browsermob-proxy
+        run: pwd && ls
 
       - name: Setup Python
         uses: actions/setup-python@v2
